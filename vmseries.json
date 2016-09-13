@@ -14,12 +14,12 @@
         "description": "Availability Set Name for Public Load Balancer"
       }
     },
-    "numOfVMs": {
+    "vmCount": {
        "type": "int",
+       "defaultValue": 2,
        "metadata": {
            "description": "Number of VM-Series firewall"
-       },
-       "defaultValue": "2"
+       }
     },
     "nsgName": {
        "type": "string",
@@ -327,7 +327,7 @@
     "SettingUpPublicIPUrl": "[concat(parameters('baseUrl'),'/publicip-',parameters('MgmtPublicIP'),'.json')]",
     "setupNICsURL": "[concat(parameters('baseUrl'),'/setupNICS-', parameters('MgmtPublicIP'),'.json')]",
     "vmTemplateUrl": "[concat(parameters('baseUrl'), '/virtual-machine-', parameters('authenticationType'),'-bs-', parameters('Bootstrap'), '.json')]",
-    "location": "[location()]"
+    "location": "[resourceGroup().location]"
 
   },
   "resources": [
@@ -358,12 +358,12 @@
       }
     },
     {
-      "name": "SettingUpPublicIPs",
+      "name": "[concat('SettingUpPublicIPs', copyindex())]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "copy": {
-          "name": "[concat('publicIPLoop', parameters('SettingUpPublicIPs'))]",
-          "count": "[parameters('numOfVMs')]"
+          "name": "SettingUpPublicIPsLoop",
+          "count": "[parameters('vmCount')]"
       },
       "properties": {
         "mode": "Incremental",
@@ -397,15 +397,15 @@
       }
     },
     {
-      "name": "SetupNetworkInterfaces",
+      "name": "[concat('SetupNetworkInterfaces', copyindex())]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
-        "Microsoft.Resources/deployments/SettingUpPublicIPs"
+        "SettingUpPublicIPsLoop"
       ],
       "copy": {
           "name": "NetworkInterfaceLoop",
-          "count": "[parameters('numOfVMs')]"
+          "count": "[parameters('vmCount')]"
       },
       "properties": {
         "mode": "Incremental",
@@ -466,17 +466,17 @@
       }
     },
     {
-      "name": "VMSeries-Firewall-VM",
+      "name": "[concat('VMSeries-Firewall-VM', copyindex())]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
         "Microsoft.Resources/deployments/SettingUpStorageAccount",
-        "Microsoft.Resources/deployments/SettingUpPublicIPs",
-        "Microsoft.Resources/deployments/SetupNetworkInterfaces"
+        "SettingUpPublicIPsLoop",
+        "NetworkInterfaceLoop"
       ],
       "copy": {
           "name": "VirtualMachineLoop",
-          "count": "[parameters('numOfVMs')]"
+          "count": "[parameters('vmCount')]"
       },
       "properties": {
         "mode": "Incremental",

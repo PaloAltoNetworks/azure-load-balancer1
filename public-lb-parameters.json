@@ -7,6 +7,9 @@
     },
     "dnsNameforLBIP": {
       "value": "publiclbdnslb51g"
+    },
+    "availabilitySetName": {
+      "value": "myPublicAV"
     }
   }
 }
