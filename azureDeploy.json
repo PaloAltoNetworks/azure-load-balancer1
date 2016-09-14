@@ -6,6 +6,13 @@
       "type": "string",
       "defaultValue": "nsg-default1"
     },
+    "srcIPInboundNSG": {
+       "type": "string",
+       "metadata": {
+           "description": "Your source public IP address. Added to the inbound NSG on eth0 (MGMT)"
+       },
+       "defaultValue": "0.0.0.0/0"
+    },
     "virtualNetworkName": {
       "type": "string",
       "defaultValue": "vnet-FW",
@@ -303,14 +310,45 @@
     "location": "[resourceGroup().location]",
     "rgname": "[resourceGroup().id]",
     "rgname": "vnet",
+    "nsgName" : "[concat('vmseries-NSG-', substring(uniqueString(resourceGroup().id), 0, 4))]",
+    "nsgURL" : "[concat(parameters('baseUrl'),'/nsg-new.json')]",
     "vnetURL" : "[concat(parameters('baseUrl'),'/vnet-', parameters('vnetNewOrExisting'),'.json')]",
     "publicLBURL" : "[concat(parameters('baseUrl'),'/public-lb-', parameters('LoadBalancerType'), '.json')]"
   },
   "resources": [
     {
+      "name": "SetupNSG",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "properties": { 
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('nsgSetupURL')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[variables('location')]"
+          },
+          "nsgName": {
+            "value": "[variables('nsgName')]"
+          },
+          "srcIPInboundNSG": {
+            "value": "[parameters('srcIPInboundNSG')]"
+          },
+          "virtualNetworkAddressPrefix": {
+            "value": "[parameters('virtualNetworkAddressPrefix')]"
+          }
+        }
+      }
+    },
+    {
       "name": "SetupVNET",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/SetupNSG"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
