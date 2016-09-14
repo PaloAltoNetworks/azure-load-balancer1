@@ -1,0 +1,69 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "virtualNetworkName": {
+      "value": "vnet-New1"
+    },
+    "virtualNetworkAddressPrefix": {
+      "value": "192.168.0.0/16"
+    },
+    "lbName": {
+      "value": "public-lb"
+    },
+    "dnsNameforLBIP": {
+      "value": "publiclbdnslb51g"
+    },
+    "availabilitySetName": {
+      "value": "myPublicAV"
+    },
+    "adminUsername": {
+      "value": "samisra"
+    },
+    "adminPassword": {
+      "value": "Hello!"
+    },
+    "storageAccountName": {
+      "value": "storage519"
+    },
+    "vmName": {
+      "value": "vmname-519"
+    },
+    "MgmtPublicIP": {
+      "value": "new"
+    },
+    "MgmtPublicIPAddressName": {
+      "value": "dnsnamemgmt519"
+    },
+    "UntrustPublicIP": {
+      "value": "none"
+    },
+    "UntrustPublicIPAddressName": {
+      "value": "dnsnameuntrust519"
+    },
+    "vmSize": {
+      "value": "Standard_D3"
+    },
+    "Bootstrap": {
+      "value": "no"
+    },
+    "BootstrapUri": {
+      "value": "https://samisravhddata.blob.core.windows.net/data/bootstrap-20.vhd.vhd"
+    },
+    "BootstrapUriSizeGB": {
+      "value": "20"
+    },
+    "lbName": {
+      "value": "public-lb"
+    },
+    "availabilitySetName": {
+      "value": "myPublicAV"
+    },
+    "vmCount": {
+      "value": 2
+    },
+    "nsgName": {
+      "value": "nsg-default1"
+    }
+  }
+}

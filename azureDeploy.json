@@ -1,0 +1,375 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "nsgName": {
+      "type": "string",
+      "defaultValue": "nsg-default1"
+    },
+    "virtualNetworkName": {
+      "type": "string",
+      "defaultValue": "vnet-FW",
+      "metadata": {
+        "description": "VNET name"
+      }
+    },
+    "virtualNetworkAddressPrefix": {
+      "type": "string",
+      "defaultValue": "192.168.0.0/16",
+      "metadata": {
+        "description": "CIDR for vnet"
+      }
+    },
+    "subnet0Name": {
+      "type": "string",
+      "defaultValue": "Mgmt",
+      "metadata": {
+        "description": "Subnet for Management"
+      }
+    },
+    "subnet1Name": {
+      "type": "string",
+      "defaultValue": "Untrust",
+      "metadata": {
+        "description": "Subnet for Untrust"
+      }
+    },
+    "subnet2Name": {
+      "type": "string",
+      "defaultValue": "Trust",
+      "metadata": {
+        "description": "Subnet for Trust"
+      }
+    },
+    "subnet0Prefix": {
+      "type": "string",
+      "defaultValue": "192.168.0.0/24",
+      "metadata": {
+        "description": "Mgmt subnet CIDR"
+      }
+    },
+    "subnet1Prefix": {
+      "type": "string",
+      "defaultValue": "192.168.1.0/24",
+      "metadata": {
+        "description": "Untrust subnet CIDR"
+      }
+    },
+    "subnet2Prefix": {
+      "type": "string",
+      "defaultValue": "192.168.2.0/24",
+      "metadata": {
+        "description": "Trust subnet CIDR"
+      }
+    },
+    "dnsNameforLBIP": {
+      "type": "string",
+      "metadata": {
+        "description": "DNS for Public Load Balancer"
+      }
+    },
+    "lbName": {
+      "type": "string",
+      "defaultValue": "myPublicLB",
+      "metadata": {
+        "description": "Public Load Balancer name"
+      }
+    },
+    "publicLoadBalancePIPName": {
+      "type": "string",
+      "defaultValue": "myPublicIPLBName",
+      "metadata": {
+        "description": "Public Load Balancer IP Name"
+      }
+    },
+    "availabilitySetName": {
+      "type": "string",
+      "metadata": {
+        "description": "Availability Set Name for Public Load Balancer"
+      }
+    },
+    "vmCount": {
+       "type": "int",
+       "defaultValue": 2,
+       "metadata": {
+           "description": "Number of VM-Series firewall"
+       }
+    },
+    "vmName": {
+       "type": "string",
+       "metadata": {
+          "description": "Name of VM-Series VM in the Azure portal"
+       },  
+       "defaultValue": "VM-Series"
+    },
+    "Email": {
+       "type": "string",
+       "metadata": {
+          "description": "Email ID"
+       },
+       "defaultValue": ""
+    },
+    "vmSize": {
+       "type": "string",
+       "allowedValues": [
+          "Standard_D3",
+          "Standard_D4",
+          "Standard_D3_v2",
+          "Standard_D4_v2",
+          "Standard_D5_v2",
+          "Standard_D14_v2",
+          "Standard_A4"
+       ],
+       "metadata": {
+          "description": "Azure VM size for VM-Series"
+       },
+       "defaultValue": "Standard_D3"
+    },
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Username of the administrator account of VM-Series"
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Password for the administrator account of VM-Series"
+      }
+    },
+    "baseUrl": {
+      "type": "string",
+      "metadata": {
+        "artifactsBaseUrl": "",
+        "description": "URL to acquire other VM-Series for Azure templates"
+      },
+      "defaultValue": "https://raw.githubusercontent.com/PaloAltoNetworks/azure-load-balancer1/master/"
+    },
+    "MgmtPublicIP": {
+      "type": "string",
+      "defaultValue": "new",
+      "allowedValues": [
+        "new",
+        "none"
+      ],
+      "metadata": {
+        "description": "Public IP for mgmt interface is new or existing"
+      }
+    },
+   "MgmtPublicIPRGName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Resource Group containing existing public IP"
+      }
+    },
+    "MgmtPublicIPAddressName": {
+      "type": "string",
+      "defaultValue": "vm-servies-pib-mgmt",
+      "metadata": {
+        "description": "Name of public IP resource for mgmt interface"
+      }
+    },
+    "UntrustPublicIP": {
+      "type": "string",
+      "defaultValue": "none",
+      "allowedValues": [
+        "new",
+        "none"
+      ],
+      "metadata": {
+        "description": "Public IP for untrust interface is new or none"
+      }
+    },
+    "UntrustPublicIPAddressName": {
+      "type": "string",
+      "defaultValue": "vm-servies-pib-untrust",
+      "metadata": {
+        "description": "Name of public IP resource for untrust interface"
+      }
+    },
+    "UntrustPublicIPRGName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Resource Group containing existing public IP"
+      }
+    },
+    "storageAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name prefix of the new storage account created to store the VM's disks"
+      } 
+    },
+    "storageAccountNewOrExisting" : {
+       "type": "string",
+       "defaultValue" : "new",
+       "allowedValues" : [
+          "new",
+          "existing"
+       ],
+       "metadata": {
+          "Description": "Storage Account is new or existing"
+       }
+    },
+    "storageAccountExistingRG": {
+       "type": "string",
+       "defaultValue" : "",
+       "metadata": {
+          "description": "Storage's Resource Group for existing VM."
+       }
+    },
+    "storageAccountType": {
+      "type": "string",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_GRS",
+        "Premium_LRS",
+        "Standard_RAGRS"
+      ],
+      "metadata": {
+        "description": "Type of the storage account created"
+      },
+      "defaultValue": "Standard_LRS"
+    },
+    "Bootstrap": {
+      "type": "string",
+      "defaultValue" : "no",
+      "allowedValues": [
+        "yes",
+        "no"
+      ],
+      "metadata": {
+        "description": "Bootstrap disk yes or no"
+      }
+    },
+    "BootstrapUri": {
+      "type": "string",
+      "defaultValue" : "",
+      "metadata": {
+        "description": "Bootstrap disk storage account URI with container name"
+      }
+    },
+    "BootstrapUriSizeGB": {
+      "type": "string",
+      "defaultValue" : "1",
+      "metadata": {
+        "description": "Bootstrap disk size in GB"
+      }
+    },
+    "authenticationType": {
+            "type": "string",
+            "metadata": {
+                "descritpion": "Type of administrator user authentication "
+            },
+            "allowedValues": [
+                "sshPublicKey",
+                "password"
+            ],
+            "defaultValue": "password"
+    },
+    "sshKey": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "SSH rsa public key file as a string."
+            }
+    },
+    "LoadBalancerType": {
+      "type": "string",
+      "defaultValue" : "layer-4",
+      "allowedValues": [
+        "layer-4",
+        "layer-7"
+      ],
+      "metadata": {
+        "description": "Type of the Public Load Balancer (L4/L7)"
+      }
+    }
+  },
+  "variables": {
+    "location": "[resourceGroup().location]",
+    "rgname": "[resourceGroup().id]",
+    "rgname": "vnet",
+    "vnetURL" : "[concat(parameters('baseUrl'),'/vnet-new.json')]",
+    "publicLBURL" : "[concat(parameters('baseUrl'),'/public-lb-', parameters('LoadBalancerType'), '.json')]"
+  },
+  "resources": [
+    {
+      "name": "SetupVNET",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('vnetURL')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "nsgName": {
+            "value": "[parameters('nsgName')]"
+          },
+          "virtualNetworkName": {
+            "value": "[parameters('virtualNetworkName')]"
+          },
+          "virtualNetworkAddressPrefix": {
+            "value": "[parameters('virtualNetworkAddressPrefix')]"
+          },
+          "subnet0Name": {
+               "value": "[parameters('subnet0Name')]"
+          },
+          "subnet1Name": {
+               "value": "[parameters('subnet1Name')]"
+          },
+          "subnet2Name": {
+               "value": "[parameters('subnet2Name')]"
+          },
+          "subnet0Prefix": {
+               "value": "[parameters('subnet0Prefix')]"
+          },
+          "subnet1Prefix": {
+               "value": "[parameters('subnet1Prefix')]"
+          },
+          "subnet2Prefix": {
+               "value": "[parameters('subnet2Prefix')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "SetupPublicLoadBalancer",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/SetupVNET"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('publicLBURL')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "dnsNameforLBIP": {
+               "value": "[parameters('dnsNameforLBIP')]"
+          },
+          "lbName": {
+               "value": "[parameters('lbName')]"
+          },
+          "publicIPAddressName": {
+               "value": "[parameters('publicIPAddressName')]"
+          },
+          "vnetName": {
+               "value": "[parameters('virtualNetworkName')]"
+          },
+          "availabilitySetName": {
+               "value": "[parameters('availabilitySetName')]"
+          }
+        }
+       }
+     }
+  ],
+  "outputs": {
+  }
+}
