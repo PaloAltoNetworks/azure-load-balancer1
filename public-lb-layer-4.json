@@ -35,6 +35,60 @@
       "metadata": {
         "description": "Availability Set Name for Public Load Balancer"
       }
+    },
+    "platformFaultDomainCount": {
+      "type": "string",
+      "defaultValue": "3",
+      "metadata": {
+        "description": "Availability Set Fault Domain"
+      }
+    },
+    "platformUpdateDomainCount": {
+      "type": "string",
+      "defaultValue": "20",
+      "metadata": {
+        "description": "Availability Set Update Domain"
+      }
+    },
+    "skuName": {
+      "type": "string",
+      "allowedValues": [
+        "Standard_Small",
+        "Standard_Medium",
+        "Standard_Large"
+      ],
+      "defaultValue": "Standard_Medium",
+      "metadata": {
+        "description": "Sku Name"
+      }
+    },
+    "capacity": {
+      "type": "int",
+      "defaultValue": 2,
+      "metadata": {
+        "description": "Number of instances"
+      }
+    },
+    "backendIpAddress1": {
+      "type": "string",
+      "defaultValue": "192.168.1.4",
+      "metadata": {
+        "description": "IP Address for Backend Server 1"
+      }
+    },
+    "backendIpAddress2": {
+      "type": "string",
+      "defaultValue": "192.168.1.5",
+      "metadata": {
+        "description": "IP Address for Backend Server 2"
+      }
+    },
+    "subnetName": {
+      "type": "string",
+      "defaultValue": "untrust",
+      "metadata": {
+        "description": "Untrust subnet Name
+      }
     }
   },
   "variables": {
@@ -51,7 +105,10 @@
       "name": "[parameters('availabilitySetName')]",
       "apiVersion": "2015-05-01-preview",
       "location": "[resourceGroup().location]",
-      "properties": {}
+      "properties": {
+        "platformFaultDomainCount": "[parameters('platformFaultDomainCount')]",
+        "platformUpdateDomainCount": "[parameters('platformUpdateDomainCount')]"
+      }
     },
     {
       "apiVersion": "2015-05-01-preview",

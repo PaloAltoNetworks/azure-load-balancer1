@@ -95,15 +95,29 @@
     },
     "publicLoadBalancePIPName": {
       "type": "string",
-      "defaultValue": "myPublicIPLBName",
+      "defaultValue": "mypubliciploadbal",
       "metadata": {
-        "description": "Public Load Balancer IP Name"
+        "description": "Public Load Balancer Public IP Name"
       }
     },
     "availabilitySetName": {
       "type": "string",
       "metadata": {
         "description": "Availability Set Name for Public Load Balancer"
+      }
+    },
+    "platformFaultDomainCount": {
+      "type": "string",  
+      "defaultValue": "3",
+      "metadata": {
+        "description": "Availability Set Fault Domain"
+      }
+    },
+    "platformUpdateDomainCount": {
+      "type": "string",  
+      "defaultValue": "20",
+      "metadata": {
+        "description": "Availability Set Update Domain"
       }
     },
     "vmCount": {
@@ -323,7 +337,7 @@
       "properties": { 
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('nsgSetupURL')]",
+          "uri": "[variables('nsgURL')]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -357,7 +371,7 @@
         },
         "parameters": {
           "nsgName": {
-            "value": "[parameters('nsgName')]"
+            "value": "[variables('nsgName')]"
           },
           "virtualNetworkName": {
             "value": "[parameters('virtualNetworkName')]"
@@ -407,13 +421,19 @@
                "value": "[parameters('lbName')]"
           },
           "publicIPAddressName": {
-               "value": "[parameters('publicIPAddressName')]"
+               "value": "[parameters('publicLoadBalancePIPName')]"
           },
           "vnetName": {
                "value": "[parameters('virtualNetworkName')]"
           },
           "availabilitySetName": {
                "value": "[parameters('availabilitySetName')]"
+          },
+          "platformFaultDomainCount": {
+               "value": "[parameters('platformFaultDomainCount')]"
+          },
+          "platformUpdateDomainCount": {
+               "value": "[parameters('platformUpdateDomainCount')]"
           }
         }
        }
