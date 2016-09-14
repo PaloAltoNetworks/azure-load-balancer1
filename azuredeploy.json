@@ -275,6 +275,17 @@
             "metadata": {
                 "description": "SSH rsa public key file as a string."
             }
+    },
+    "LoadBalancerType": {
+      "type": "string",
+      "defaultValue" : "layer-4",
+      "allowedValues": [
+        "layer-4",
+        "layer-7"
+      ],
+      "metadata": {
+        "description": "Type of the Public Load Balancer (L4/L7)"
+      }
     }
   },
   "variables": {
@@ -282,6 +293,7 @@
     "rgname": "[resourceGroup().id]",
     "rgname": "vnet",
     "vnetURL" : "[concat(parameters('baseUrl'),'/vnet-new.json')]",
+    "publicLBURL" : "[concat(parameters('baseUrl'),'/public-lb-', parameters('LoadBalancerType'), '.json')]"
   },
   "resources": [
     {
@@ -324,7 +336,39 @@
           }
         }
       }
-    }
+    },
+    {
+      "name": "SetupPublicLoadBalancer",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/SetupVNET"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('publicLBURL')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "dnsNameforLBIP": {
+               "value": "[parameters('dnsNameforLBIP')]"
+          },
+          "lbName": {
+               "value": "[parameters('lbName')]"
+          },
+          "publicIPAddressName": {
+               "value": "[parameters('publicIPAddressName')]"
+          },
+          "vnetName": {
+               "value": "[parameters('virtualNetworkName')]"
+          },
+          "availabilitySetName": {
+               "value": "[parameters('availabilitySetName')]"
+          }
+        }
+       }
+     }
   ],
   "outputs": {
   }

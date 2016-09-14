@@ -44,9 +44,6 @@
     "vmSize": {
       "value": "Standard_D3"
     },
-    "virtualNetworkExistingRGName": {
-      "value": "[resourceGroup().id]"
-    },
     "Bootstrap": {
       "value": "no"
     },
