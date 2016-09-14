@@ -10,3 +10,4 @@
 * vmseries.json: Creates upto 10 VMseries Firewall VM along with Network interfaces and availability Sets and attaches them to public load balancer
 * private-lb.json: Creates a private load balancer
 * webserver.json: Creates a webserver farm and attaches them to private load balancer
+* azureDeploy.json: Call all the JSON files in the correct order to create or use existing VNET, new Load Balancers, Firewall and Webserver Farm
