@@ -87,7 +87,7 @@
       "type": "string",
       "defaultValue": "untrust",
       "metadata": {
-        "description": "Untrust subnet Name
+        "description": "Untrust subnet Name"
       }
     }
   },
