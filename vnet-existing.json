@@ -67,54 +67,12 @@
     "location": "[resourceGroup().location]",
     "rgname": "[resourceGroup().id]",
     "rgname": "vnet",
-    "vnetname": "[concat(variables('rgname'),'-',parameters('virtualNetworkName'))]",
-    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('vnetname'))]",
-    "subnet0Ref": "[concat(variables('vnetID'),'/subnets/',parameters('subnet0Name'))]",
-    "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',parameters('subnet1Name'))]",
-    "subnet2Ref": "[concat(variables('vnetID'),'/subnets/',parameters('subnet2Name'))]",
-    "subnets": [
-      {
-        "name": "[parameters('subnet0Name')]",
-        "properties": {
-          "addressPrefix": "[parameters('subnet0Prefix')]",
-          "networkSecurityGroup": {
-              "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('nsgName'))]"
-          }
-        }
-      },
-      {
-        "name": "[parameters('subnet1Name')]",
-        "properties": {
-          "addressPrefix": "[parameters('subnet1Prefix')]"
-        }
-      },
-      {
-        "name": "[parameters('subnet2Name')]",
-        "properties": {
-          "addressPrefix": "[parameters('subnet2Prefix')]"
-        }
-      }
-    ]
   },
   "resources": [
-    {
-      "name": "[variables('vnetname')]",
-      "type": "Microsoft.Network/virtualNetworks",
-      "location": "[variables('location')]",
-      "apiVersion": "2015-06-15",
-      "properties": {
-        "addressSpace": {
-          "addressPrefixes": [
-            "[parameters('virtualNetworkAddressPrefix')]"
-          ]
-        },
-        "subnets": "[variables('subnets')]"
-      }
-    }
   ],
   "outputs": {
     "vnetName": {
-      "value": "[variables('vnetname')]",
+      "value": "[parameters('virtualNetworkName')]",
       "type": "string"
     }
   }

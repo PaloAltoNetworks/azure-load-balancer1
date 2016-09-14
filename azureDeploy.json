@@ -13,6 +13,17 @@
         "description": "VNET name"
       }
     },
+    "vnetNewOrExisting": {
+            "type": "string",
+            "defaultValue": "new",
+            "allowedValues": [
+                "new",
+                "existing"
+            ],
+            "metadata": {
+                "description": "Use new or existing VNET"
+            }
+    },
     "virtualNetworkAddressPrefix": {
       "type": "string",
       "defaultValue": "192.168.0.0/16",
@@ -292,7 +303,7 @@
     "location": "[resourceGroup().location]",
     "rgname": "[resourceGroup().id]",
     "rgname": "vnet",
-    "vnetURL" : "[concat(parameters('baseUrl'),'/vnet-new.json')]",
+    "vnetURL" : "[concat(parameters('baseUrl'),'/vnet-', parameters('vnetNewOrExisting'),'.json')]",
     "publicLBURL" : "[concat(parameters('baseUrl'),'/public-lb-', parameters('LoadBalancerType'), '.json')]"
   },
   "resources": [
