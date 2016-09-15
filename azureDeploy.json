@@ -20,6 +20,13 @@
         "description": "VNET name"
       }
     },
+    "virtualNetworkExistingRGName": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().id]",
+      "metadata": {
+        "description": "Resource group of the VNET"
+      }
+    },
     "vnetNewOrExisting": {
             "type": "string",
             "defaultValue": "new",
@@ -327,7 +334,8 @@
     "nsgName" : "[concat('vmseries-NSG-', substring(uniqueString(resourceGroup().id), 0, 4))]",
     "nsgURL" : "[concat(parameters('baseUrl'),'/nsg-new.json')]",
     "vnetURL" : "[concat(parameters('baseUrl'),'/vnet-', parameters('vnetNewOrExisting'),'.json')]",
-    "publicLBURL" : "[concat(parameters('baseUrl'),'/public-lb-', parameters('LoadBalancerType'), '.json')]"
+    "publicLBURL" : "[concat(parameters('baseUrl'),'/public-lb-', parameters('LoadBalancerType'), '.json')]",
+    "vmseriesURL" : "[concat(parameters('baseUrl'),'/vmseries.json')]"
   },
   "resources": [
     {
@@ -434,6 +442,119 @@
           },
           "platformUpdateDomainCount": {
                "value": "[parameters('platformUpdateDomainCount')]"
+          }
+        }
+       }
+     },
+     {
+      "name": "SetupVMSeries",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/SetupPublicLoadBalancer"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('vmseriesURL')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "lbName": {
+               "value": "[parameters('lbName')]"
+          },
+          "availabilitySetName": {
+               "value": "[parameters('availabilitySetName')]"
+          },
+          "vmCount": {
+               "value": "[parameters('vmCount')]"
+          },
+          "vmName": {
+               "value": "[parameters('vmName')]"
+          },
+          "Email": {
+               "value": "[parameters('Email')]"
+          },
+          "vmSize": {
+               "value": "[parameters('vmSize')]"
+          },
+          "virtualNetworkName": {
+               "value": "[parameters('virtualNetworkName')]"
+          },
+          "virtualNetworkExistingRGName": {
+               "value": "[parameters('virtualNetworkExistingRGName')]"
+          },
+          "subnet0Name": {
+               "value": "[parameters('subnet0Name')]"
+          },
+          "subnet1Name": {
+               "value": "[parameters('subnet1Name')]"
+          },
+          "subnet2Name": {
+               "value": "[parameters('subnet2Name')]"
+          },
+          "subnet0Prefix": {
+               "value": "[parameters('subnet0Prefix')]"
+          },
+          "subnet1Prefix": {
+               "value": "[parameters('subnet1Prefix')]"
+          },
+          "subnet2Prefix": {
+               "value": "[parameters('subnet2Prefix')]"
+          },
+          "adminUsername": {
+               "value": "[parameters('adminUsername')]"
+          },
+          "adminPassword": {
+               "value": "[parameters('adminPassword')]"
+          },
+          "baseUrl": {
+               "value": "[parameters('baseUrl')]"
+          },
+          "MgmtPublicIP": {
+               "value": "[parameters('MgmtPublicIP')]"
+          },
+          "MgmtPublicIPRGName": {
+               "value": "[parameters('MgmtPublicIPRGName')]"
+          },
+          "MgmtPublicIPAddressName": {
+               "value": "[parameters('MgmtPublicIPAddressName')]"
+          },
+          "UntrustPublicIP": {
+               "value": "[parameters('UntrustPublicIP')]"
+          },
+          "UntrustPublicIPAddressName": {
+               "value": "[parameters('UntrustPublicIPAddressName')]"
+          },
+          "UntrustPublicIPRGName": {
+               "value": "[parameters('UntrustPublicIPRGName')]"
+          },
+          "storageAccountName": {
+               "value": "[parameters('storageAccountName')]"
+          },
+          "storageAccountNewOrExisting": {
+               "value": "[parameters('storageAccountNewOrExisting')]"
+          },
+          "storageAccountExistingRG": {
+               "value": "[parameters('storageAccountExistingRG')]"
+          },
+          "storageAccountType": {
+               "value": "[parameters('storageAccountType')]"
+          },
+          "Bootstrap": {
+               "value": "[parameters('Bootstrap')]"
+          },
+          "BootstrapUri": {
+               "value": "[parameters('BootstrapUri')]"
+          },
+          "BootstrapUriSizeGB": {
+               "value": "[parameters('BootstrapUriSizeGB')]"
+          },
+          "authenticationType": {
+               "value": "[parameters('authenticationType')]"
+          },
+          "sshKey": {
+               "value": "[parameters('sshKey')]"
           }
         }
        }

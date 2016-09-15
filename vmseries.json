@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-  "contentVersion": "1.0.0.13",
+  "contentVersion": "1.0.0.0",
   "parameters": {
     "lbName": {
       "type": "string",
@@ -19,12 +19,6 @@
        "defaultValue": 2,
        "metadata": {
            "description": "Number of VM-Series firewall"
-       }
-    },
-    "nsgName": {
-       "type": "string",
-       "metadata": {
-          "description": "Name of the Network Security Group"
        }
     },
     "vmName": {
@@ -111,27 +105,6 @@
       "defaultValue": "192.168.2.0/24",
       "metadata": {
         "description": "Trust subnet CIDR"
-      }
-    },
-    "subnet0StartAddress": {
-      "type": "string",
-      "defaultValue": "192.168.0.4",
-      "metadata": {
-        "description": "Mgmt subnet start address"
-      }
-    },
-    "subnet1StartAddress": {
-      "type": "string",
-      "defaultValue": "192.168.1.4",
-      "metadata": {
-        "description": "Untrust subnet start address"
-      }
-    },
-    "subnet2StartAddress": {
-      "type": "string",
-      "defaultValue": "192.168.2.4",
-      "metadata": {
-        "description": "Trust subnet start address"
       }
     },
     "adminUsername": {
@@ -292,36 +265,11 @@
     "imageSku" : "byol",
     "imageOffer" : "vmseries1",
     "nicName": "[parameters('vmName')]",
-    "FWPrivateIPAddressUntrust": "[parameters('subnet1StartAddress')]",
-    "FWPrivateIPAddressTrust": "[parameters('subnet2StartAddress')]",
     "vnetID": "[resourceId(parameters('virtualNetworkExistingRGName'),concat('Microsoft.Network','/','virtualNetworks'),parameters('virtualNetworkName'))]",
     "subnet0Ref": "[concat(variables('vnetID'),'/subnets/',parameters('subnet0Name'))]",
     "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',parameters('subnet1Name'))]",
     "subnet2Ref": "[concat(variables('vnetID'),'/subnets/',parameters('subnet2Name'))]",
     "publicIPAddressType": "Dynamic",
-    "subnets": [
-      {
-        "name": "[parameters('subnet0Name')]",
-        "properties": {
-          "addressPrefix": "[parameters('subnet0Prefix')]",
-          "networkSecurityGroup": {
-              "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('nsgName'))]"
-          }
-        }
-      },
-      {
-        "name": "[parameters('subnet1Name')]",
-        "properties": {
-          "addressPrefix": "[parameters('subnet1Prefix')]"
-        }
-      },
-      {
-        "name": "[parameters('subnet2Name')]",
-        "properties": {
-          "addressPrefix": "[parameters('subnet2Prefix')]"
-        }
-      }
-    ],
     "storageAccountSetupURL" : "[concat(parameters('baseUrl'),'/storageAccount-',parameters('storageAccountNewOrExisting'),'.json')]",
     "nsgSetupURL" : "[concat(parameters('baseUrl'),'/nsg-new.json')]",
     "SettingUpPublicIPUrl": "[concat(parameters('baseUrl'),'/publicip-',parameters('MgmtPublicIP'),'.json')]",
@@ -423,20 +371,11 @@
           "subnet0Name": {
             "value": "[parameters('subnet0Name')]"
           },
-          "subnet0StartAddress": {
-            "value": "[parameters('subnet0StartAddress')]"
-          },
           "subnet1Name": {
             "value": "[parameters('subnet1Name')]"
           },
-          "subnet1StartAddress": {
-            "value": "[parameters('subnet1StartAddress')]"
-          },
           "subnet2Name": {
             "value": "[parameters('subnet2Name')]"
-          },
-          "subnet2StartAddress": {
-            "value": "[parameters('subnet2StartAddress')]"
           },
           "virtualNetworkName": {
             "value": "[parameters('virtualNetworkName')]"
