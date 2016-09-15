@@ -11,19 +11,10 @@
     "subnet0Name": {
       "type": "string"
     },
-    "subnet0StartAddress": {
-      "type": "string"
-    },
     "subnet1Name": {
       "type": "string"
     },
-    "subnet1StartAddress": {
-      "type": "string"
-    },
     "subnet2Name": {
-      "type": "string"
-    },
-    "subnet2StartAddress": {
       "type": "string"
     },
     "virtualNetworkName": {
@@ -97,9 +88,6 @@
           },
           "subnet1Name": {
             "value": "[parameters('subnet1Name')]"
-          },
-          "subnet1StartAddress": {
-            "value": "[parameters('subnet1StartAddress')]"
           },
           "virtualNetworkName": {
             "value": "[parameters('virtualNetworkName')]"

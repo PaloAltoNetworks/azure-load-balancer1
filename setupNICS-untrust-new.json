@@ -11,9 +11,6 @@
     "subnet1Name": {
       "type": "string"
     },
-    "subnet1StartAddress": {
-      "type": "string"
-    },
     "virtualNetworkName": {
       "type": "string"
     },

@@ -93,9 +93,6 @@
           "subnet1Name": {
             "value": "[parameters('subnet1Name')]"
           },
-          "subnet1StartAddress": {
-            "value": "[parameters('subnet1StartAddress')]"
-          },
           "virtualNetworkName": {
             "value": "[parameters('virtualNetworkName')]"
           },
