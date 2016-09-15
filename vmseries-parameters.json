@@ -49,9 +49,6 @@
     },
     "vmCount": {
       "value": 2
-    },
-    "nsgName": {
-      "value": "nsg-default1"
     }
   }
 }
