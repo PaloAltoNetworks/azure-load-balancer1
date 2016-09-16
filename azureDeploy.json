@@ -22,7 +22,7 @@
     },
     "virtualNetworkExistingRGName": {
       "type": "string",
-      "defaultValue": "[resourceGroup().id]",
+      "defaultValue": "",
       "metadata": {
         "description": "Resource group of the VNET"
       }
@@ -445,6 +445,32 @@
           }
         }
        }
+     },
+     {
+      "name": "SettingUpStorageAccount",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('storageAccountSetupURL')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[variables('location')]"
+          },
+          "storageAccountType": {
+            "value": "[parameters('storageAccountType')]"
+          },
+          "storageAccountName": {
+            "value": "[parameters('storageAccountName')]"
+          },
+          "storageAccountExistingRG": {
+               "value": "[parameters('storageAccountExistingRG')]"
+          }
+        }
+      }
      },
      {
       "name": "SetupVMSeries",

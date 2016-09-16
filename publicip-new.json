@@ -26,7 +26,8 @@
   },
   "variables": {
     "SettingUpPublicIPUrl": "[concat(parameters('baseUrl'),'/publicip-untrust-',parameters('UntrustPublicIP'),'.json')]",
-    "mgmt": "[concat('mgmtIP-', parameters('MgmtPublicIPAddressName'))]"
+    "mgmt": "[concat('mgmtIP-', parameters('MgmtPublicIPAddressName'))]",
+    "untrust": "[concat('untrustIP-', parameters('UntrustPublicIPAddressName'))]"
   },
   "resources": [
     {
@@ -42,7 +43,7 @@
       }
     },
     {
-      "name": "UntrustSettingUpPublicIPs",
+      "name": "[variables('untrust')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "properties": { 
