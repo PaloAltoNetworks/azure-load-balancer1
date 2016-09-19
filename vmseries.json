@@ -266,7 +266,6 @@
     "imageOffer" : "vmseries1",
     "nicName": "[parameters('vmName')]",
     "publicIPAddressType": "Dynamic",
-    "storageAccountSetupURL" : "[concat(parameters('baseUrl'),'/storageAccount-',parameters('storageAccountNewOrExisting'),'.json')]",
     "nsgSetupURL" : "[concat(parameters('baseUrl'),'/nsg-new.json')]",
     "SettingUpPublicIPUrl": "[concat(parameters('baseUrl'),'/publicip-',parameters('MgmtPublicIP'),'.json')]",
     "setupNICsURL": "[concat(parameters('baseUrl'),'/setupNICS-', parameters('MgmtPublicIP'),'.json')]",

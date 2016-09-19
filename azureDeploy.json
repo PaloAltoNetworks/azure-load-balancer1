@@ -335,6 +335,7 @@
     "nsgURL" : "[concat(parameters('baseUrl'),'/nsg-new.json')]",
     "vnetURL" : "[concat(parameters('baseUrl'),'/vnet-', parameters('vnetNewOrExisting'),'.json')]",
     "publicLBURL" : "[concat(parameters('baseUrl'),'/public-lb-', parameters('LoadBalancerType'), '.json')]",
+    "storageAccountSetupURL" : "[concat(parameters('baseUrl'),'/storageAccount-',parameters('storageAccountNewOrExisting'),'.json')]",
     "vmseriesURL" : "[concat(parameters('baseUrl'),'/vmseries.json')]"
   },
   "resources": [
