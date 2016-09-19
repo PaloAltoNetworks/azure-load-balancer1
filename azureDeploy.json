@@ -557,7 +557,7 @@
                "value": "[parameters('UntrustPublicIPRGName')]"
           },
           "storageAccountName": {
-               "value": "[parameters('storageAccountName')]"
+               "value": "[reference('SettingUpStorageAccount').outputs.sid.value]"
           },
           "storageAccountNewOrExisting": {
                "value": "[parameters('storageAccountNewOrExisting')]"

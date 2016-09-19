@@ -378,7 +378,6 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
-        "Microsoft.Resources/deployments/SettingUpStorageAccount",
         "SettingUpPublicIPsLoop",
         "NetworkInterfaceLoop"
       ],
@@ -421,7 +420,7 @@
             "value": "[parameters('adminPassword')]"
           },
           "storageAccountName": {
-            "value": "[reference('SettingUpStorageAccount').outputs.sid.value]"
+            "value": "[parameters('storageAccountName')]"
           },
           "sshKey": {
             "value": "[parameters('sshKey')]"
