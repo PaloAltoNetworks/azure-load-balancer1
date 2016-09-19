@@ -74,9 +74,12 @@
       }
     },
     {
-      "name": "SetupNetworkInterfaceUntrust",
+      "name": "[concat('SetupNetworkInterfaceUntrust-', parameters('nicName'))]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "[concat('eth0-', parameters('nicName'))]"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -113,6 +116,9 @@
       "type": "Microsoft.Network/networkInterfaces",
       "location": "[parameters('location')]",
       "apiVersion": "2015-06-15",
+      "dependsOn": [
+        "[concat('SetupNetworkInterfaceUntrust-', parameters('nicName'))]"
+      ],
       "properties": {
         "enableIPForwarding": true,
         "ipConfigurations": [
