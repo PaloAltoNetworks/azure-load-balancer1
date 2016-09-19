@@ -430,6 +430,9 @@
           },
           "BootstrapUriSizeGB": {
             "value": "[parameters('BootstrapUriSizeGB')]"
+          },
+          "availabilitySetName": {
+            "value": "[parameters('availabilitySetName')]"
           }
         }
       }

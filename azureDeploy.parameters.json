@@ -12,7 +12,7 @@
       "value": "panw"
     },
     "virtualNetworkExistingRGName": {
-      "value": "[resourceGroup().id]"
+      "value": "smeast15"
     },
     "virtualNetworkAddressPrefix": {
       "value": "192.168.0.0/16"
