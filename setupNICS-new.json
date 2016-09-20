@@ -135,5 +135,10 @@
       }
     }
   ],
-  "outputs": {}
+  "outputs": {
+    "UntrustPrivateIPAddress": {
+      "value": "[reference(concat('SetupNetworkInterfaceUntrust-', parameters('nicName'))).outputs.UntrustPrivateIPAddress.value]"
+      "type": "string"
+    }
+  }
 }

@@ -12,7 +12,7 @@
       "value": "panw"
     },
     "virtualNetworkExistingRGName": {
-      "value": "smeast16"
+      "value": "smeast19"
     },
     "virtualNetworkAddressPrefix": {
       "value": "192.168.0.0/16"
@@ -33,22 +33,22 @@
       "value": "Hello!"
     },
     "storageAccountName": {
-      "value": "storage521"
+      "value": "storagesmeast19"
     },
     "vmName": {
-      "value": "vmname-521"
+      "value": "vmname-6t19"
     },
     "MgmtPublicIP": {
       "value": "new"
     },
     "MgmtPublicIPAddressName": {
-      "value": "dnsnamemgmt521"
+      "value": "dnsnamemgmt19"
     },
     "UntrustPublicIP": {
       "value": "none"
     },
     "UntrustPublicIPAddressName": {
-      "value": "dnsnameuntrust521"
+      "value": "dnsnameuntrust522"
     },
     "vmSize": {
       "value": "Standard_D3"
@@ -70,6 +70,9 @@
     },
     "vmCount": {
       "value": 2
+    },
+    "LoadBalancerType": {
+      "value": "layer-7"
     }
   }
 }

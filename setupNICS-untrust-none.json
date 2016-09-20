@@ -50,5 +50,10 @@
       }
     }
   ],
-  "outputs": {}
+  "outputs": {
+    "UntrustPrivateIPAddress": {
+      "value": "[reference(concat('eth1-', parameters('nicName'))).ipConfigurations[0].properties.privateIPAddress]",
+      "type": "string"
+    }
+  }
 }

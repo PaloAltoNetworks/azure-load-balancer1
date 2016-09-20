@@ -409,44 +409,6 @@
         }
       }
     },
-    {
-      "name": "SetupPublicLoadBalancer",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "Microsoft.Resources/deployments/SetupVNET"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('publicLBURL')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "dnsNameforLBIP": {
-               "value": "[parameters('dnsNameforLBIP')]"
-          },
-          "lbName": {
-               "value": "[parameters('lbName')]"
-          },
-          "publicIPAddressName": {
-               "value": "[parameters('publicLoadBalancePIPName')]"
-          },
-          "vnetName": {
-               "value": "[parameters('virtualNetworkName')]"
-          },
-          "availabilitySetName": {
-               "value": "[parameters('availabilitySetName')]"
-          },
-          "platformFaultDomainCount": {
-               "value": "[parameters('platformFaultDomainCount')]"
-          },
-          "platformUpdateDomainCount": {
-               "value": "[parameters('platformUpdateDomainCount')]"
-          }
-        }
-       }
-     },
      {
       "name": "SettingUpStorageAccount",
       "type": "Microsoft.Resources/deployments",
@@ -478,7 +440,6 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
-        "Microsoft.Resources/deployments/SetupPublicLoadBalancer",
         "Microsoft.Resources/deployments/SetupVNET"
       ],
       "properties": {
@@ -583,6 +544,45 @@
           },
           "sshKey": {
                "value": "[parameters('sshKey')]"
+          }
+        }
+       }
+     },
+    {
+      "name": "SetupPublicLoadBalancer",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "Microsoft.Resources/deployments/SetupVNET",
+        "Microsoft.Resources/deployments/SetupVMSeries",
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('publicLBURL')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "dnsNameforLBIP": {
+               "value": "[parameters('dnsNameforLBIP')]"
+          },
+          "lbName": {
+               "value": "[parameters('lbName')]"
+          },
+          "publicIPAddressName": {
+               "value": "[parameters('publicLoadBalancePIPName')]"
+          },
+          "vnetName": {
+               "value": "[parameters('virtualNetworkName')]"
+          },
+          "availabilitySetName": {
+               "value": "[parameters('availabilitySetName')]"
+          },
+          "platformFaultDomainCount": {
+               "value": "[parameters('platformFaultDomainCount')]"
+          },
+          "platformUpdateDomainCount": {
+               "value": "[parameters('platformUpdateDomainCount')]"
           }
         }
        }
