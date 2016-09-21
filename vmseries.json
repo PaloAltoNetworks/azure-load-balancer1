@@ -440,12 +440,23 @@
   ],
   "outputs": {
     "UntrustPrivateIPAddress1": {
-      "value": "[reference(concat('VMSeries-Firewall-VM',0)).outputs.UntrustPrivateIPAddress.value]"
+      "value": "[reference(concat('SetupNetworkInterfaces','0')).outputs.UntrustPrivateIPAddress.value]"
       "type": "string"
     },
     "UntrustPrivateIPAddress2": {
-      "value": "[reference(concat('VMSeries-Firewall-VM',1)).outputs.UntrustPrivateIPAddress.value]"
+      "value": "[reference(concat('SetupNetworkInterfaces','1')).outputs.UntrustPrivateIPAddress.value]"
       "type": "string"
+    }
+    "UntrustPrivateIPAddresses": {
+      "value": [
+        {
+          "IpAddress": "[reference(concat('SetupNetworkInterfaces','0')).outputs.UntrustPrivateIPAddress.value]"
+        },
+        {
+          "IpAddress": "[reference(concat('SetupNetworkInterfaces','1')).outputs.UntrustPrivateIPAddress.value]"
+        }
+      ],
+      "type": "array"
     }
   }
 }

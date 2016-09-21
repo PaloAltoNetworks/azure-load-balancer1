@@ -69,18 +69,18 @@
         "description": "Number of instances"
       }
     },
-    "backendIpAddress1": {
-      "type": "string",
-      "defaultValue": "192.168.1.4",
+    "backendIPAddresses": {
+      "type": "array",
+      "defaultValue": [
+        {
+          "IpAddress": "10.0.0.4"
+        },
+        {
+          "IpAddress": "10.0.0.5"
+        }
+      ],
       "metadata": {
-        "description": "IP Address for Backend Server 1"
-      }
-    },
-    "backendIpAddress2": {
-      "type": "string",
-      "defaultValue": "192.168.1.5",
-      "metadata": {
-        "description": "IP Address for Backend Server 2"
+        "description": "back end pool ip addresses"
       }
     },
     "subnetName": {
@@ -155,14 +155,7 @@
           {
             "name": "appGatewayBackendPool",
             "properties": {
-              "BackendAddresses": [
-                {
-                  "IpAddress": "[parameters('backendIpAddress1')]"
-                },
-                {
-                  "IpAddress": "[parameters('backendIpAddress2')]"
-                }
-              ]
+               "BackendAddresses": "[parameters('backendIPAddresses')]"
             }
           }
         ],

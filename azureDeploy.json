@@ -584,11 +584,8 @@
           "platformUpdateDomainCount": {
                "value": "[parameters('platformUpdateDomainCount')]"
           },
-          "backendIpAddress1": {
-               "value": "[reference('SetupVMSeries').outputs.UntrustPrivateIPAddress1.value]"
-          },
-          "backendIpAddress2": {
-               "value": "[reference('SetupVMSeries').outputs.UntrustPrivateIPAddress2.value]"
+          "backendIPAddresses": {
+               "value": "[reference('SetupVMSeries').outputs.UntrustPrivateIPAddresses.value]"
           }
         }
        }
